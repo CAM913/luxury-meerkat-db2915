@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DC 3232 Exam Prep Panel — Weeks 1–5</title>
+<style>
+  :root{
+    --paper:#F6F7F3;
+    --paper-2:#EFF1EA;
+    --ink:#1C2321;
+    --ink-soft:#4B5550;
+    --line:#D3D8CD;
+    --line-strong:#AEB6A6;
+    --teal:#2F6F62;
+    --teal-dark:#1E4B41;
+    --teal-pale:#E4EFEA;
+    --amber:#B4772C;
+    --amber-pale:#F5E9D8;
+    --flag-normal:#2E7D46;
+    --flag-normal-bg:#E5F3E8;
+    --flag-abn:#AE3327;
+    --flag-abn-bg:#F8E7E4;
+    --radius:3px;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:28px 20px 64px;}
+
+  /* ---------- Requisition header ---------- */
+  .req-header{
+    border:1px solid var(--line-strong);
+    background:#fff;
+    border-radius:var(--radius);
+    padding:18px 22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .req-header .id{
+    font-family:var(--serif);
+    letter-spacing:0.01em;
+  }
+  .req-header .id .course{
+    font-size:13px;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:4px;
+  }
+  .req-header .id h1{
+    margin:0;
+    font-size:28px;
+    font-weight:600;
+    line-height:1.15;
+  }
+  .req-header .id .sub{
+    margin-top:6px;
+    font-size:14px;
+    color:var(--ink-soft);
+    font-family:var(--sans);
+  }
+  .panel-readout{
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    min-width:150px;
+    text-align:center;
+    padding:10px 16px;
+    background:var(--paper-2);
+  }
+  .panel-readout .label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--ink-soft);
+    margin-bottom:4px;
+  }
+  .panel-readout .value{
+    font-family:var(--serif);
+    font-size:26px;
+    font-weight:600;
+  }
+  .panel-readout .value.flag-abn{color:var(--flag-abn);}
+  .panel-readout .value.flag-normal{color:var(--flag-normal);}
+
+  /* ---------- Tabs (chart divider style) ---------- */
+  .tabbar{
+    display:flex;
+    gap:4px;
+    margin-top:22px;
+    overflow-x:auto;
+    padding-bottom:2px;
+  }
+  .tabbar::-webkit-scrollbar{height:6px;}
+  .tab{
+    flex:0 0 auto;
+    border:1px solid var(--line-strong);
+    border-bottom:none;
+    background:var(--paper-2);
+    color:var(--ink-soft);
+    padding:10px 16px 9px;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    border-radius:var(--radius) var(--radius) 0 0;
+    white-space:nowrap;
+    transform:translateY(3px);
+    transition:transform .12s ease, background .12s ease, color .12s ease;
+  }
+  .tab:hover{color:var(--ink);}
+  .tab[aria-selected="true"]{
+    background:#fff;
+    color:var(--teal-dark);
+    transform:translateY(0);
+    border-bottom:1px solid #fff;
+    position:relative;
+    z-index:2;
+  }
+  .tab-underline{
+    border-bottom:1px solid var(--line-strong);
+    margin-top:-1px;
+  }
+
+  /* ---------- Main stage ---------- */
+  .stage{
+    background:#fff;
+    border:1px solid var(--line-strong);
+    border-top:none;
+    border-radius:0 0 var(--radius) var(--radius);
+    padding:26px 26px 30px;
+  }
+
+  .week-title{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-bottom:4px;
+  }
+  .week-title h2{
+    font-family:var(--serif);
+    font-size:22px;
+    margin:0;
+    font-weight:600;
+  }
+  .obj-toggle{
+    font-size:12.5px;
+    color:var(--teal-dark);
+    background:none;
+    border:1px solid var(--teal);
+    border-radius:20px;
+    padding:5px 12px;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .obj-toggle:hover{background:var(--teal-pale);}
+  .objectives{
+    display:none;
+    margin:14px 0 20px;
+    padding:14px 16px;
+    background:var(--teal-pale);
+    border-left:3px solid var(--teal);
+    border-radius:var(--radius);
+  }
+  .objectives.show{display:block;}
+  .objectives .ol-label{
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.07em;
+    color:var(--teal-dark);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .objectives ul{margin:0;padding-left:20px;}
+  .objectives li{margin-bottom:4px;font-size:14px;color:var(--ink);}
+
+  .mode-toggle{
+    display:inline-flex;
+    border:1px solid var(--line-strong);
+    border-radius:20px;
+    overflow:hidden;
+    margin:14px 0 22px;
+  }
+  .mode-toggle button{
+    border:none;
+    background:#fff;
+    padding:8px 18px;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .mode-toggle button.active{
+    background:var(--teal);
+    color:#fff;
+  }
+
+  /* ---------- Flashcards ---------- */
+  .fc-area{display:flex;flex-direction:column;align-items:center;gap:18px;}
+  .fc-count{font-size:13px;color:var(--ink-soft);}
+  .flashcard{
+    width:100%;
+    max-width:520px;
+    height:230px;
+    perspective:1200px;
+    cursor:pointer;
+  }
+  .flashcard-inner{
+    position:relative;
+    width:100%;height:100%;
+    transition:transform .5s cubic-bezier(.2,.8,.2,1);
+    transform-style:preserve-3d;
+  }
+  .flashcard.flipped .flashcard-inner{transform:rotateY(180deg);}
+  .fc-face{
+    position:absolute;inset:0;
+    backface-visibility:hidden;
+    border:1px solid var(--line-strong);
+    border-radius:6px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:26px;
+    background:var(--paper-2);
+  }
+  .fc-face .fc-tag{
+    position:absolute;
+    top:12px;left:16px;
+    font-size:10.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .fc-front{}
+  .fc-front .term{
+    font-family:var(--serif);
+    font-size:26px;
+    font-weight:600;
+    max-width:420px;
+  }
+  .fc-hint{
+    margin-top:14px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .fc-back{
+    transform:rotateY(180deg);
+    background:var(--teal-pale);
+  }
+  .fc-back .def{
+    font-size:15.5px;
+    max-width:440px;
+    line-height:1.55;
+  }
+  .fc-nav{display:flex;gap:10px;align-items:center;}
+  .btn{
+    border:1px solid var(--line-strong);
+    background:#fff;
+    padding:9px 18px;
+    border-radius:20px;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    color:var(--ink);
+  }
+  .btn:hover{border-color:var(--teal);color:var(--teal-dark);}
+  .btn:focus-visible, .tab:focus-visible, .mode-toggle button:focus-visible,
+  .opt:focus-visible, .obj-toggle:focus-visible{
+    outline:2px solid var(--teal-dark);
+    outline-offset:2px;
+  }
+  .btn.primary{background:var(--teal);color:#fff;border-color:var(--teal);}
+  .btn.primary:hover{background:var(--teal-dark);color:#fff;}
+  .btn:disabled{opacity:0.4;cursor:not-allowed;}
+
+  /* ---------- Quiz ---------- */
+  .quiz-progress{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-bottom:14px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .progress-bar{
+    height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin-bottom:18px;
+  }
+  .progress-bar > div{height:100%;background:var(--teal);transition:width .25s ease;}
+  .q-card .case-flag{
+    display:inline-block;
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:0.07em;
+    color:var(--amber);
+    border:1px solid var(--amber);
+    border-radius:20px;
+    padding:2px 10px;
+    margin-bottom:10px;
+  }
+  .q-text{
+    font-size:17px;
+    font-weight:600;
+    margin:0 0 16px;
+    line-height:1.45;
+  }
+  .options{display:flex;flex-direction:column;gap:9px;margin-bottom:18px;}
+  .opt{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    text-align:left;
+    border:1px solid var(--line-strong);
+    background:#fff;
+    border-radius:var(--radius);
+    padding:11px 14px;
+    font-size:14.5px;
+    cursor:pointer;
+    color:var(--ink);
+  }
+  .opt:hover{border-color:var(--teal);}
+  .opt .letter{
+    flex:0 0 auto;
+    width:22px;height:22px;
+    border:1px solid var(--line-strong);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:700;
+    color:var(--ink-soft);
+  }
+  .opt.selected{border-color:var(--teal-dark);background:var(--teal-pale);}
+  .opt.selected .letter{border-color:var(--teal-dark);color:var(--teal-dark);}
+  .opt.correct{border-color:var(--flag-normal);background:var(--flag-normal-bg);}
+  .opt.correct .letter{border-color:var(--flag-normal);color:var(--flag-normal);}
+  .opt.incorrect{border-color:var(--flag-abn);background:var(--flag-abn-bg);}
+  .opt.incorrect .letter{border-color:var(--flag-abn);color:var(--flag-abn);}
+  .opt[disabled], .opt.locked{cursor:default;}
+
+  .feedback{
+    border-radius:var(--radius);
+    padding:14px 16px;
+    margin-bottom:16px;
+    font-size:14px;
+    line-height:1.55;
+    display:none;
+  }
+  .feedback.show{display:block;}
+  .feedback.normal{background:var(--flag-normal-bg);border:1px solid var(--flag-normal);}
+  .feedback.abnormal{background:var(--flag-abn-bg);border:1px solid var(--flag-abn);}
+  .feedback .flag-word{
+    font-weight:700;
+    text-transform:uppercase;
+    font-size:12px;
+    letter-spacing:0.06em;
+    margin-right:8px;
+  }
+  .feedback.normal .flag-word{color:var(--flag-normal);}
+  .feedback.abnormal .flag-word{color:var(--flag-abn);}
+
+  .quiz-actions{display:flex;gap:10px;justify-content:flex-end;}
+
+  /* ---------- Summary report ---------- */
+  .report{
+    text-align:center;
+    padding:20px 10px;
+  }
+  .report .score-big{
+    font-family:var(--serif);
+    font-size:44px;
+    font-weight:700;
+    margin:6px 0 2px;
+  }
+  .report .score-big.flag-normal{color:var(--flag-normal);}
+  .report .score-big.flag-abn{color:var(--flag-abn);}
+  .report .score-label{font-size:13px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.07em;}
+  .missed-list{
+    text-align:left;
+    max-width:520px;
+    margin:22px auto 0;
+    border-top:1px solid var(--line);
+    padding-top:16px;
+  }
+  .missed-list h4{
+    font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin:0 0 10px;
+  }
+  .missed-list li{font-size:14px;margin-bottom:8px;line-height:1.5;}
+  .report-actions{display:flex;gap:10px;justify-content:center;margin-top:22px;flex-wrap:wrap;}
+
+  .breakdown{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    gap:10px;
+    margin:20px 0 0;
+    max-width:560px;
+    margin-left:auto;margin-right:auto;
+  }
+  .breakdown .cell{
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    padding:10px;
+  }
+  .breakdown .cell .w{font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;}
+  .breakdown .cell .s{font-family:var(--serif);font-size:20px;font-weight:700;margin-top:2px;}
+
+  footer.note{
+    max-width:920px;margin:18px auto 0;padding:0 20px;
+    font-size:12px;color:var(--ink-soft);
+  }
+
+  @media (max-width:600px){
+    .req-header{flex-direction:column;}
+    .panel-readout{align-self:flex-start;}
+    .stage{padding:20px 16px 24px;}
+    .flashcard{height:260px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .flashcard-inner{transition:none;}
+    .tab{transition:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="req-header">
+    <div class="id">
+      <div class="course">DC 3232 &nbsp;·&nbsp; Clinical Lab Diagnosis</div>
+      <h1>Exam Prep Panel</h1>
+      <div class="sub">Weeks 1–5 &nbsp;|&nbsp; Flashcards &amp; practice questions, organized by learning objective</div>
+    </div>
+    <div class="panel-readout">
+      <div class="label">Session Score</div>
+      <div class="value" id="sessionScore">—</div>
+    </div>
+  </div>
+
+  <div class="tabbar" id="tabbar" role="tablist"></div>
+  <div class="stage" id="stage"></div>
+
+  <footer class="note">
+    Progress tracks for this browser session only. Refreshing the page will reset scores — that's expected, so use this for repeated practice, not a graded record.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* =========================================================
+   CONTENT DATA
+   ========================================================= */
+
+const WEEKS = [
+{
+  id:"w1", label:"Week 1", title:"Principles of Laboratory Diagnosis",
+  objectives:[
+    "Identify the criteria used to determine when a laboratory test should be ordered",
+    "Define sensitivity, specificity, positive predictive value, and negative predictive value",
+    "Evaluate a test's clinical usefulness by applying sensitivity, specificity, PPV, and NPV",
+    "Define incidence and prevalence",
+    "Distinguish between validity, accuracy, and precision as they apply to laboratory testing",
+    "Describe how reference values are established and used to interpret laboratory results"
+  ],
+  flashcards:[
+    {term:"Sensitivity", def:"The probability that a test is positive in someone who truly has the disease — TP / (TP + FN). A highly sensitive test, when negative, rules OUT disease (SnOUT)."},
+    {term:"Specificity", def:"The probability that a test is negative in someone who truly does not have the disease — TN / (TN + FP). A highly specific test, when positive, rules IN disease (SpIN)."},
+    {term:"Positive Predictive Value (PPV)", def:"The likelihood that a positive result is a true positive — TP / (TP + FP). Rises as disease prevalence in the tested population rises."},
+    {term:"Negative Predictive Value (NPV)", def:"The likelihood that a negative result is a true negative — TN / (TN + FN). Rises as disease prevalence falls."},
+    {term:"Incidence", def:"The number of NEW cases of a disease occurring within a specified time period, in a specific population."},
+    {term:"Prevalence", def:"The number of EXISTING cases of a disease at a specific point in time, in a specific population."},
+    {term:"Validity", def:"Whether a test measures what it is intended to measure — is it the correct test for this disease, analyte, or condition?"},
+    {term:"Accuracy", def:"How close a test result is to the true value. Key question: is the result correct?"},
+    {term:"Precision", def:"How reproducible repeated measurements are. Key question: do repeated measurements give the same answer?"},
+    {term:"Reference Range", def:"The set of values obtained from a healthy reference population, typically within 2 standard deviations of the mean — capturing about 95% of healthy individuals."}
+  ],
+  quiz:[
+    {q:"A clinician orders a test on a patient who feels well and has no symptoms, as part of an annual physical exam. This is best described as which use of a lab test?",
+     options:["Diagnosis","Screening","Prognosis","Therapeutic monitoring"], answer:1,
+     explain:"Screening looks for disease in asymptomatic patients, typically as part of preventive or wellness care."},
+    {q:"Following universal precautions and correctly handling a specimen during collection belongs to which phase of the diagnostic testing model?",
+     options:["Pretest (preanalytic)","Intratest (analytic)","Posttest (postanalytic)","None — this is not part of the model"], answer:1,
+     explain:"The intratest/analytic phase covers actually performing the test: following regulations, proper specimen handling, and universal precautions."},
+    {q:"A screening test has a sensitivity of 98%. Approximately what percentage of patients who truly have the disease will this test correctly flag as positive?",
+     options:["2%","50%","98%","100%, with no exceptions"], answer:2,
+     explain:"Sensitivity is the proportion of diseased patients who test positive — 98% sensitivity means 98% of diseased people will have a positive (true positive) result."},
+    {q:"A dangerous but treatable infection is circulating and must not be missed. Which test property matters most for confidently ruling the disease OUT with a negative result?",
+     options:["High specificity","High sensitivity","High PPV alone","Low incidence"], answer:1,
+     explain:"SnOUT: a highly sensitive test, when negative, rules out disease — few false negatives, so a negative result is trustworthy."},
+    {q:"The same test is used first in a high-prevalence population, then in a low-prevalence population. What happens to its PPV and NPV, respectively, in the low-prevalence group?",
+     options:["PPV rises, NPV falls","PPV falls, NPV rises","Both rise","Both fall"], answer:1,
+     explain:"As prevalence falls, a positive result is less likely to be a true positive (PPV falls), while a negative result becomes more trustworthy (NPV rises)."},
+    {q:"A lab technician runs the same patient sample five times and gets nearly identical results each time, even though the equipment has a known slight calibration offset from the true value. This scenario best demonstrates:",
+     options:["High accuracy, low precision","High precision, low accuracy","High validity, low accuracy","Low precision, low validity"], answer:1,
+     explain:"Reproducible results indicate high precision; a consistent offset from the true value means low accuracy despite that precision."},
+    {q:"Which statement correctly distinguishes prevalence from incidence?",
+     options:[
+       "Prevalence counts new cases over time; incidence counts existing cases at one point in time",
+       "Prevalence counts existing cases at a point in time; incidence counts new cases over a period",
+       "They are interchangeable terms for the same measurement",
+       "Incidence applies only to chronic diseases, prevalence only to acute diseases"], answer:1,
+     explain:"Prevalence = existing cases at a point in time; incidence = new cases arising over a defined period."},
+    {q:"Labs are increasingly encouraged to use the term \u201ccutoff point\u201d rather than \u201cupper limit of normal.\u201d What is the main reason for this shift in terminology?",
+     options:[
+       "Cutoff point sounds more technical to patients",
+       "Reference ranges don't perfectly separate healthy from diseased people — some healthy people fall outside them and some diseased people fall within them",
+       "It is required by federal law",
+       "\u201cNormal\u201d values no longer use standard deviations"], answer:1,
+     explain:"Reference ranges are statistical constructs with inherent margin of error, so 'normal' is misleading language — the terms 'reference range' and 'cutoff point' better reflect this."},
+    {q:"Which best distinguishes validity from accuracy?",
+     options:[
+       "Validity is about whether the right thing is being measured; accuracy is about how close the result is to the true value of that thing",
+       "Validity and accuracy both refer strictly to repeated-measurement agreement",
+       "Accuracy is about the correct analyte; validity is about closeness to the true value",
+       "There is no meaningful distinction between the two terms"], answer:0,
+     explain:"Validity asks 'is this the right test for this condition?' while accuracy asks 'is this particular result close to the true value?'"}
+  ]
+},
+{
+  id:"w2", label:"Week 2", title:"Urinalysis — Physical & Biochemical Exam",
+  objectives:[
+    "Summarize urine formation, including structures involved and events occurring at each",
+    "Identify the components of urine",
+    "Identify factors that can influence the composition of urine",
+    "Describe indications for ordering a urinalysis",
+    "Identify various types of urine specimens and their characteristics",
+    "Describe proper urine specimen collection, handling, and processing to preserve specimen integrity",
+    "Identify the 3 types of lab testing done for routine urinalysis",
+    "Explain the physiological basis of the physical and biochemical components of urinalysis"
+  ],
+  flashcards:[
+    {term:"Clean-Catch (Midstream)", def:"Collection method that minimizes bacterial contamination: the initial stream is voided into the toilet, and the rest is caught midstream in a sterile container."},
+    {term:"First Morning Specimen", def:"The most concentrated void of the day, free of dietary influence; preferred for pregnancy, nitrite, protein, and routine screening/microscopic tests."},
+    {term:"Specific Gravity", def:"A measure of urine concentration relative to pure water (1.000); typical range ~1.005–1.030. Reflects the kidney's ability to concentrate urine."},
+    {term:"Leukocyte Esterase", def:"Dipstick marker for WBCs (pyuria) in urine. Only detects WBCs with cytoplasmic granules (granulocytes/monocytes) — a negative result can still mean lymphocytes are present."},
+    {term:"Nitrite", def:"An indirect dipstick marker for gram-negative bacteria (bacterial reductase converts nitrate to nitrite). Positive result suggests a UTI."},
+    {term:"Proteinuria", def:"Protein (usually albumin) in urine — the single most important early indicator of kidney disease, often appearing before symptoms."},
+    {term:"Glucosuria", def:"Glucose in urine, occurring when blood glucose exceeds the PCT's reabsorption capacity. >1000 mg/dL is a critical value requiring provider notification."},
+    {term:"Ketonuria", def:"Ketones (acetone, ketone bodies) in urine from fat metabolism — seen in diabetes, starvation, low-carbohydrate diets, and severe vomiting."},
+    {term:"Urobilinogen", def:"Formed by bacterial enzymes acting on bilirubin in the GI tract. Elevated in hemolytic anemia, hepatic damage, and hemorrhage into tissue."},
+    {term:"Polyuria / Oliguria / Anuria", def:"Polyuria: >2.5 L urine/24h (DM, diabetes insipidus). Oliguria: <400 mL/24h (often dehydration). Anuria: <50–100 mL/24h (usually a medical emergency)."}
+  ],
+  quiz:[
+    {q:"A patient is instructed to discard the first morning void, then collect the very next specimen produced. This describes which specimen type, useful for fasting glucose monitoring?",
+     options:["Random specimen","Postprandial specimen","Second (double-voided) specimen","Timed 24-hour specimen"], answer:2,
+     explain:"The second-voided specimen discards the first morning void and collects the next one, which better reflects fasting blood glucose."},
+    {q:"If testing of a urine specimen is delayed, which analyte is most likely to be falsely LOW because it evaporates?",
+     options:["Glucose","Ketones","Bilirubin","Nitrite"], answer:1,
+     explain:"Ketones are volatile and evaporate from unpreserved specimens, causing falsely low or absent readings if testing is delayed."},
+    {q:"A dipstick returns positive for both leukocyte esterase and nitrite. What is the most appropriate next step?",
+     options:["No further action needed","Repeat the dipstick only","Send the urine for culture, suspecting a UTI","Assume contamination and discard the sample"], answer:2,
+     explain:"Leukocyte esterase + nitrite together are suggestive of a UTI, and this combination should prompt a urine culture for pathogen identification."},
+    {q:"A patient's urine specific gravity is fixed at approximately 1.010 across several random specimens, regardless of fluid intake. This finding is most consistent with:",
+     options:["Diabetes insipidus","Nephrotic syndrome","Chronic glomerulonephritis with severe renal damage","Normal renal concentrating ability"], answer:2,
+     explain:"A 'fixed' specific gravity near 1.010 regardless of hydration status indicates the kidney has lost its ability to concentrate or dilute urine, seen in severe chronic renal damage."},
+    {q:"A patient reports that their urine looks foamy. This is most suspicious for:",
+     options:["Glucosuria","Proteinuria","Ketonuria","Normal hydration"], answer:1,
+     explain:"Foamy or frothy urine is a classic sign of significant proteinuria."},
+    {q:"When blood glucose exceeds the reabsorption capacity of the proximal convoluted tubule, what is the physiologic result?",
+     options:["Glucose is stored in the bladder","Glucose spills into the urine (glucosuria)","Glucose is converted to ketones in the kidney","Glucose reabsorption increases to compensate"], answer:1,
+     explain:"Once the PCT's transport maximum for glucose is exceeded, the excess glucose is not reabsorbed and spills into the urine."},
+    {q:"A known diabetic patient's urine tests positive for ketones. What does this most likely indicate about their current glycemic control?",
+     options:["Excellent glycemic control","Poorly controlled diabetes, with fat being used for energy due to insufficient insulin","A normal, expected finding in all diabetics","Unrelated to their diabetes"], answer:1,
+     explain:"Ketonuria in a diabetic patient indicates insufficient insulin is available to use glucose for energy, so fat is being broken down instead — a sign of poor control."},
+    {q:"Elevated urobilinogen with a NEGATIVE bilirubin result would be most consistent with:",
+     options:["Obstructive biliary disease","Hemolytic anemia (increased hemoglobin breakdown)","Normal hydration status","Bacterial contamination"], answer:1,
+     explain:"Increased RBC destruction in hemolytic anemia raises bilirubin production and, downstream, urobilinogen — without necessarily producing direct bilirubin in the urine."},
+    {q:"A fresh urine specimen has a fruity, acetone-like odor. This is most associated with:",
+     options:["A urinary tract infection","Phenylketonuria","Diabetic ketoacidosis","Maple syrup urine disease"], answer:2,
+     explain:"A fruity/sweet/acetone odor classically points to diabetic ketoacidosis, due to circulating ketone bodies."}
+  ]
+},
+{
+  id:"w3", label:"Week 3", title:"Urinalysis — Microscopic Exam",
+  objectives:[
+    "Explain the physiological basis of the microscopic components of urinalysis",
+    "Interpret microscopic findings, distinguishing typical from atypical results and critical values",
+    "Given UA data, identify physical, chemical, and microscopic findings that commonly occur together",
+    "Analyze atypical urinalysis findings alongside patient history to support a differential diagnosis and determine when referral is warranted"
+  ],
+  flashcards:[
+    {term:"hpf", def:"High-power field — the 40x objective lens magnification used to report formed elements (RBCs, WBCs) in urine sediment."},
+    {term:"Pyuria", def:"An increase in white blood cells in the urine, suggesting infection or inflammation of the genitourinary tract."},
+    {term:"Hematuria", def:"Red blood cells in urine; may reflect injury or disease anywhere along the urinary tract, or contamination (menstrual, perineal)."},
+    {term:"Tamm-Horsfall Protein (Uromodulin)", def:"A glycoprotein secreted by nephron tubular cells that forms the structural basis of all urinary casts. Not detected by the dipstick."},
+    {term:"Hyaline Casts", def:"Clear, colorless casts formed from precipitated Tamm-Horsfall protein. Nonspecific; can appear transiently after fever, stress, heat, or exercise in healthy people."},
+    {term:"Granular Casts", def:"Coarsely granular, dense casts seen in a variety of kidney diseases without one specific pathology; can also follow strenuous exercise."},
+    {term:"Waxy Casts", def:"Wide casts formed from degenerating granular casts; classically indicate end-stage renal disease (\"renal failure casts\")."},
+    {term:"RBC Casts", def:"Always pathologic — indicate hemorrhage within the nephron, most often from acute glomerulonephritis."},
+    {term:"WBC Casts", def:"Indicate infection or inflammation originating within the kidney itself (e.g., pyelonephritis)."},
+    {term:"Oval Fat Bodies", def:"Lipid-laden renal tubular cells that show a \"Maltese cross\" pattern under polarized light; associated with nephrotic syndrome."}
+  ],
+  quiz:[
+    {q:"A urine sediment shows 6 WBCs/hpf in a properly collected specimen. Is this within normal limits?",
+     options:["Yes, healthy range is 0–4 WBCs/hpf so 6 is close enough","No, this is atypical — healthy range is 0–4 WBCs/hpf","No, this is atypical — healthy range is 0–10 WBCs/hpf","Yes, WBCs are never clinically significant"], answer:1,
+     explain:"The healthy range is 0–4 WBCs/hpf; anything above that (like 6/hpf) is considered atypical and worth evaluating."},
+    {q:"Squamous epithelial cells are seen in a urine sediment. What is their clinical significance?",
+     options:["They indicate acute kidney injury","They indicate a urinary tract infection","Little to none — they commonly originate from urethral or vaginal tissue","They are diagnostic of nephrotic syndrome"], answer:2,
+     explain:"Squamous epithelial cells are the most commonly found epithelial cell in urine and generally carry little diagnostic significance."},
+    {q:"A patient's sediment shows significant numbers of transitional epithelial cells. This is most consistent with:",
+     options:["Normal turnover with no clinical relevance","UTI, inflammation, or kidney stones","Vaginal contamination only","Chronic liver disease"], answer:1,
+     explain:"Transitional epithelial cells line the urinary tract from the renal pelvis to the proximal urethra; increased numbers suggest UTI, inflammation, or stones."},
+    {q:"Increased numbers of renal tubular epithelial (RTE) casts most strongly indicate:",
+     options:["A benign, expected finding","Tubular injury (e.g., acute tubular necrosis)","Lower urinary tract infection","Glomerular hemorrhage"], answer:1,
+     explain:"While a few RTE cells/casts can be normal from routine cell turnover, increased numbers point to tubular injury."},
+    {q:"A patient shows only a few hyaline casts on urinalysis after finishing a marathon the day before. What is the most likely explanation?",
+     options:["End-stage renal disease","A transient, benign finding related to exercise/dehydration","Acute pyelonephritis","Multiple myeloma"], answer:1,
+     explain:"Hyaline casts can appear transiently in healthy people after fever, stress, heat exposure, or strenuous exercise, primarily due to dehydration."},
+    {q:"Which combination of findings would most strongly support a diagnosis of acute glomerulonephritis, warranting prompt referral?",
+     options:["Squamous cells + slightly cloudy urine","RBC casts + hematuria + proteinuria","A few hyaline casts + clear urine","Leukocyte esterase + nitrite only"], answer:1,
+     explain:"RBC casts are always pathologic and, together with hematuria and proteinuria, strongly suggest glomerular disease such as acute glomerulonephritis — this combination warrants prompt referral."},
+    {q:"Which urinary sediment element is described as unique to the kidney, since it can only form within the nephron itself?",
+     options:["Squamous epithelial cells","Uric acid crystals","Casts","Bacteria"], answer:2,
+     explain:"Casts are the only urinary sediment element unique to the kidney — they form specifically within the distal tubules and collecting ducts."}
+  ]
+},
+{
+  id:"w4", label:"Week 4", title:"Hematology & Anemia — Blood, RBCs, and the CBC",
+  objectives:[
+    "Explain the physiological basis of RBC production and regulation",
+    "Identify the components of the blood",
+    "Identify the function of erythrocytes (RBCs)",
+    "Identify indications for ordering hematology tests",
+    "Describe proper blood specimen collection, handling, and processing to preserve specimen integrity",
+    "Identify the components of basic blood tests (hemogram and CBC)",
+    "Identify the components of common red blood cell tests",
+    "Identify normal and abnormal RBC morphology on a peripheral blood smear"
+  ],
+  flashcards:[
+    {term:"Buffy Coat", def:"The thin layer of leukocytes (WBCs) and thrombocytes (platelets) that sits between plasma and the packed RBC layer after centrifugation."},
+    {term:"Hematocrit (Hct)", def:"The percentage of whole blood volume occupied by RBCs — about 45% normally. Reflects the packed 'solid' portion of blood."},
+    {term:"Erythropoietin (EPO)", def:"A hormone made primarily by the kidneys that stimulates erythropoiesis in the bone marrow in response to tissue hypoxia."},
+    {term:"Hematopoiesis vs. Erythropoiesis", def:"Hematopoiesis is the formation of ALL blood cells; erythropoiesis is the formation of RBCs specifically."},
+    {term:"Reticulocyte", def:"An immature RBC released from marrow into circulation in response to increased demand; normally ~1% of circulating RBCs; matures fully within 1–2 days."},
+    {term:"MCV (Mean Corpuscular Volume)", def:"Hct \u00f7 RBC count — the average volume/size of a single RBC. Classifies anemia as microcytic, normocytic, or macrocytic."},
+    {term:"MCH (Mean Corpuscular Hemoglobin)", def:"Hb mass \u00f7 RBC count — the average amount of hemoglobin per RBC; defines the cell's chroma (pale = hypochromic)."},
+    {term:"MCHC (Mean Corpuscular Hemoglobin Concentration)", def:"Hb mass \u00f7 Hct — the average hemoglobin concentration (density) within RBCs."},
+    {term:"RDW (Red Cell Distribution Width)", def:"A measure of variability in RBC size (anisocytosis). Often paired with MCV to narrow the type of anemia."},
+    {term:"EDTA", def:"The anticoagulant used in the tube for most routine hematology testing (CBC); even slight clotting invalidates the sample."}
+  ],
+  quiz:[
+    {q:"Which layer of centrifuged whole blood is composed of packed erythrocytes?",
+     options:["Plasma","Buffy coat","Hematocrit","Serum"], answer:2,
+     explain:"The hematocrit is the bottom, packed layer of red blood cells after centrifugation."},
+    {q:"Approximately how many oxygen molecules can a single hemoglobin molecule carry?",
+     options:["1","2","4","8"], answer:2,
+     explain:"Each hemoglobin molecule can carry up to 4 oxygen molecules."},
+    {q:"Which enzyme within RBCs converts most tissue-derived CO2 into bicarbonate for transport in the blood?",
+     options:["Carbonic anhydrase","Catalase","Lactate dehydrogenase","Alkaline phosphatase"], answer:0,
+     explain:"Carbonic anhydrase in RBCs converts roughly 70% of CO2 released from tissues into bicarbonate, and reverses the reaction at the lungs."},
+    {q:"The colony-forming unit-erythrocyte (CFU-E) is the precursor cell line that ultimately produces:",
+     options:["Lymphocytes","Platelets only","Erythrocytes","Granulocytes and monocytes"], answer:2,
+     explain:"CFU-E stem cells give rise to proerythroblasts and, ultimately, mature erythrocytes."},
+    {q:"After a patient's tissue oxygenation drops, EPO is released within minutes to hours. Roughly how long after that does the circulating RBC count actually begin to rise?",
+     options:["Within the hour","About 1 day","About 5 days","About 6 weeks"], answer:2,
+     explain:"Despite rapid EPO release, it takes about 5 days for circulating erythrocyte numbers to meaningfully change."},
+    {q:"During venipuncture, why is a patient asked to close their fist rather than repeatedly pump it?",
+     options:["Pumping is painful for the patient","Pumping can falsely elevate plasma potassium","Pumping falsely lowers glucose","There is no physiologic reason, only comfort"], answer:1,
+     explain:"Repeated fist pumping can cause a falsely elevated plasma potassium level, affecting results."},
+    {q:"Which vein is the preferred site for routine venipuncture due to easy access and consistent values?",
+     options:["Femoral vein","Antecubital vein","Radial artery","Jugular vein"], answer:1,
+     explain:"The antecubital veins are the standard site for venipuncture due to easy access and consistent venous values."},
+    {q:"A hemogram is ordered instead of a full CBC. What component is missing from a hemogram that a CBC includes?",
+     options:["Hemoglobin","Hematocrit","WBC differential","RBC count"], answer:2,
+     explain:"A hemogram and CBC share the same core components except that the CBC also includes a WBC differential."},
+    {q:"Which RBC index is calculated directly as hematocrit divided by RBC count?",
+     options:["MCH","MCHC","RDW","MCV"], answer:3,
+     explain:"MCV = Hct / RBC count, representing the average volume of a single red blood cell."},
+    {q:"On a peripheral blood smear, cells with a pale center, dark rim, and another dark center creating a target-like appearance are called:",
+     options:["Spherocytes","Target cells","Howell-Jolly bodies","Schistocytes"], answer:1,
+     explain:"Target cells show a dark center and periphery separated by a pale ring — an abnormal RBC morphology."}
+  ]
+},
+{
+  id:"w5", label:"Week 5", title:"Hematology & Anemia — Classification and Workup",
+  objectives:[
+    "Interpret hemogram (CBC), reticulocyte count, and iron study results to detect and classify anemia by morphology and etiology",
+    "Distinguish normal from abnormal hematologic findings, including critical values",
+    "Apply iron study patterns and the corrected reticulocyte count to differentiate iron deficiency, chronic disease, thalassemia, and lead poisoning",
+    "Describe the laboratory workup for macrocytic anemias, including B12/folate deficiency, pernicious anemia, and confirmatory tests",
+    "Analyze hematologic findings with patient history to support a differential diagnosis of anemia and determine when referral is warranted",
+    "Interpret representative CBC and chemistry panels to identify patterns consistent with a specific anemia subtype"
+  ],
+  flashcards:[
+    {term:"Anemia", def:"A deficiency in the quantity and/or quality of erythrocytes, causing decreased oxygen-carrying capacity of the blood."},
+    {term:"Quantitative Defect", def:"Too few RBCs are produced, too many are lost, or too many are destroyed (e.g., iron deficiency anemia, hemorrhage)."},
+    {term:"Qualitative Defect", def:"RBCs that are structurally or functionally abnormal (e.g., sickle cell disease, hereditary spherocytosis)."},
+    {term:"Relative Anemia", def:"Hemodilution — a dilution effect (e.g., pregnancy, hyperhydration) without true loss of red cell mass."},
+    {term:"Absolute Anemia", def:"A true loss of red cell mass, from a production, maturation, survival, or sequestration defect, or from blood loss."},
+    {term:"Corrected Reticulocyte Count (CRC / RPI)", def:"Adjusts the reticulocyte percentage for the degree of anemia: Hct \u00f7 Normal Hct (45) \u00d7 Retic%. An RPI <3% suggests ineffective marrow response."},
+    {term:"Serum Ferritin", def:"The primary iron-storage protein; the earliest and most sensitive marker to fall in developing iron deficiency."},
+    {term:"TIBC (Total Iron-Binding Capacity)", def:"Reflects the total available unbound transferrin sites. Rises in iron deficiency; falls in chronic disease and liver disease."},
+    {term:"% Transferrin Saturation", def:"Serum iron \u00f7 TIBC. Very low in iron deficiency; high in iron overload (e.g., hemochromatosis)."},
+    {term:"Haptoglobin", def:"A plasma protein that binds free hemoglobin; progressively decreases as hemolysis continues and it is consumed."},
+    {term:"Schistocytes", def:"Fragmented RBCs from mechanical injury, seen in TTP, HUS, and DIC."},
+    {term:"Pernicious Anemia", def:"B12 deficiency caused by lack of intrinsic factor; confirmed most specifically by a positive intrinsic factor antibody."}
+  ],
+  quiz:[
+    {q:"A pregnant patient has mildly low hemoglobin, normal RBC morphology, and no evidence of true blood loss. This is best classified as:",
+     options:["Absolute anemia — production defect","Relative anemia (hemodilution)","Absolute anemia — survival defect","Qualitative defect"], answer:1,
+     explain:"Pregnancy commonly causes a dilutional (relative) anemia from increased plasma volume, without a true drop in red cell mass."},
+    {q:"Nutritional deficiencies of folate and B12 fall under which category of absolute anemia?",
+     options:["Production defect","Maturation defect","Survival defect","Sequestration"], answer:1,
+     explain:"Folate/B12 deficiency impairs RBC maturation, placing it in the maturation-defect category of absolute anemia."},
+    {q:"Splenomegaly causing retention of an abnormally large proportion of circulating RBCs is an example of which mechanism of absolute anemia?",
+     options:["Production defect","Maturation defect","Survival defect","Sequestration"], answer:3,
+     explain:"An enlarged spleen can sequester an abnormally large share of the body's RBCs — the sequestration mechanism."},
+    {q:"CASE: A 34-year-old presents with fatigue and pica (craving ice). CBC shows a microcytic, hypochromic anemia with elevated RDW. Iron studies show low serum iron, low ferritin, high TIBC, and low % transferrin saturation. What is the most likely diagnosis?",
+     options:["Iron deficiency anemia","Anemia of chronic disease","Hemochromatosis","Thalassemia trait"], answer:0,
+     explain:"Low iron + low ferritin + high TIBC + low saturation is the classic iron deficiency pattern, supported by pica and microcytic/hypochromic indices."},
+    {q:"CASE: A 60-year-old with longstanding rheumatoid arthritis has a mild normocytic anemia. Iron studies show low serum iron, low/normal TIBC, and normal-to-high ferritin. What is the most likely diagnosis?",
+     options:["Iron deficiency anemia","Anemia of chronic disease","Acute hemolysis","Hemochromatosis"], answer:1,
+     explain:"Low iron with a low/normal TIBC and preserved-to-high ferritin (an acute-phase reactant) is characteristic of anemia of chronic disease/inflammation, not iron deficiency."},
+    {q:"A CBC shows macrocytic anemia with a LOW reticulocyte count, along with elevated MMA and homocysteine. What is the most likely underlying process?",
+     options:["Acute hemolysis","Acute blood loss","B12 deficiency with ineffective erythropoiesis","Iron deficiency anemia"], answer:2,
+     explain:"Elevated MMA and homocysteine with macrocytic anemia and a low/inappropriately normal reticulocyte count point to B12 deficiency and ineffective RBC maturation."},
+    {q:"Which single test is most specific for confirming pernicious anemia as the underlying cause of B12 deficiency?",
+     options:["Parietal cell antibody","Intrinsic factor antibody","Serum folate","Schilling's test"], answer:1,
+     explain:"Intrinsic factor antibody is the most specific test for pernicious anemia; a positive result strongly supports the diagnosis."},
+    {q:"As hemolysis continues in a patient with hemolytic anemia, what trend would you expect to see in serum haptoglobin?",
+     options:["Progressively increasing","Progressively decreasing","No change at all","Initially decreasing, then rapidly rising"], answer:1,
+     explain:"Haptoglobin is consumed as it binds free hemoglobin released by lysed RBCs, so it progressively falls as hemolysis continues."},
+    {q:"A peripheral smear reveals bite cells. Which enzyme deficiency should be suspected?",
+     options:["Pyruvate kinase deficiency","G6PD deficiency","Carbonic anhydrase deficiency","Alpha-1 antitrypsin deficiency"], answer:1,
+     explain:"Bite cells form from splenic removal of Heinz bodies, a hallmark of G6PD deficiency."},
+    {q:"A patient recovering from acute GI hemorrhage shows a rising reticulocyte count roughly 5–10 days after the bleeding episode. What does this represent?",
+     options:["A sign of ongoing, unresolved hemorrhage","An appropriate marrow response (reticulocytosis) to replace lost RBCs","A laboratory error requiring a repeat draw","A sign of iron overload"], answer:1,
+     explain:"Reticulocyte counts rise after acute blood loss, typically peaking around 5–10 days, reflecting appropriate marrow compensation."},
+    {q:"A patient has a normocytic anemia with an elevated reticulocyte count. Which set of additional labs would best differentiate acute blood loss from hemolytic anemia?",
+     options:[
+       "Bilirubin, LDH, and haptoglobin — normal in blood loss, abnormal in hemolysis",
+       "MCV and MCH — different in blood loss but not hemolysis",
+       "Serum ferritin — low in blood loss, normal in hemolysis",
+       "WBC differential — elevated only in blood loss"], answer:0,
+     explain:"Bilirubin, LDH, and haptoglobin remain normal in acute blood loss but are elevated (bilirubin, LDH) or decreased (haptoglobin) in hemolysis, helping distinguish the two."},
+    {q:"A bone marrow biopsy shows \u226560% clonal plasma cells, and urinalysis reveals Bence Jones proteins. What is the diagnosis?",
+     options:["Multiple myeloma","Pernicious anemia","Hereditary spherocytosis","Chronic lead poisoning"], answer:0,
+     explain:"\u226560% clonal plasma cells on marrow biopsy plus Bence Jones proteinuria (free monoclonal light chains) is diagnostic of multiple myeloma."}
+  ]
+}
+];
+
+/* =========================================================
+   STATE
+   ========================================================= */
+
+let activeWeekIdx = 0;
+let activeMode = "flash"; // "flash" | "quiz"
+
+// per-week runtime state, built lazily
+const weekState = {};
+function getWeekState(i){
+  if(!weekState[i]){
+    weekState[i] = {
+      flash:{ idx:0, flipped:false, order: shuffled(WEEKS[i].flashcards.length) },
+      quiz:{ idx:0, order: shuffled(WEEKS[i].quiz.length), selected:null, checked:false,
+             score:0, answered:0, missed:[], done:false }
+    };
+  }
+  return weekState[i];
+}
+
+// Cumulative review pseudo-week
+const CUM_ID = "cum";
+let cumState = null;
+function buildCumulative(n){
+  const pool = [];
+  WEEKS.forEach((w, wi)=>{
+    w.quiz.forEach((q, qi)=>{ pool.push({wi, qi, weekLabel:w.label}); });
+  });
+  const order = shuffled(pool.length).slice(0, Math.min(n, pool.length));
+  return {
+    items: order.map(i=>pool[i]),
+    idx:0, selected:null, checked:false, score:0, answered:0, missed:[], done:false,
+    perWeek: {}
+  };
+}
+
+function shuffled(n){
+  const arr = Array.from({length:n}, (_,i)=>i);
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+
+/* =========================================================
+   RENDER: TABS
+   ========================================================= */
+
+const tabbarEl = document.getElementById("tabbar");
+const stageEl = document.getElementById("stage");
+const sessionScoreEl = document.getElementById("sessionScore");
+
+function renderTabs(){
+  tabbarEl.innerHTML = "";
+  WEEKS.forEach((w, i)=>{
+    const t = document.createElement("div");
+    t.className = "tab";
+    t.setAttribute("role","tab");
+    t.setAttribute("tabindex","0");
+    t.setAttribute("aria-selected", (activeWeekIdx===i && !isCumulative) ? "true":"false");
+    t.textContent = w.label;
+    t.addEventListener("click", ()=>{ isCumulative=false; activeWeekIdx=i; activeMode="flash"; renderAll(); });
+    t.addEventListener("keydown", (e)=>{ if(e.key==="Enter"||e.key===" "){ t.click(); }});
+    tabbarEl.appendChild(t);
+  });
+  const cumTab = document.createElement("div");
+  cumTab.className = "tab";
+  cumTab.setAttribute("role","tab");
+  cumTab.setAttribute("aria-selected", isCumulative?"true":"false");
+  cumTab.textContent = "Cumulative Review";
+  cumTab.addEventListener("click", ()=>{
+    isCumulative = true;
+    if(!cumState || cumState.done===undefined) cumState = buildCumulative(25);
+    renderAll();
+  });
+  tabbarEl.appendChild(cumTab);
+}
+
+let isCumulative = false;
+
+/* =========================================================
+   RENDER: STAGE ROUTER
+   ========================================================= */
+
+function renderAll(){
+  renderTabs();
+  if(isCumulative){
+    renderCumulativeStage();
+  } else {
+    renderWeekStage();
+  }
+  updateSessionScore();
+}
+
+function updateSessionScore(){
+  let correct=0, total=0;
+  Object.values(weekState).forEach(ws=>{
+    correct += ws.quiz.score; total += ws.quiz.answered;
+  });
+  if(cumState){ correct += cumState.score; total += cumState.answered; }
+  if(total===0){ sessionScoreEl.textContent="—"; sessionScoreEl.className="value"; return; }
+  sessionScoreEl.textContent = correct+" / "+total;
+  const pct = correct/total;
+  sessionScoreEl.className = "value " + (pct>=0.7 ? "flag-normal":"flag-abn");
+}
+
+/* =========================================================
+   RENDER: WEEK STAGE (objectives, mode toggle, flash/quiz)
+   ========================================================= */
+
+function renderWeekStage(){
+  const w = WEEKS[activeWeekIdx];
+  const ws = getWeekState(activeWeekIdx);
+
+  stageEl.innerHTML = "";
+
+  const titleRow = document.createElement("div");
+  titleRow.className = "week-title";
+  titleRow.innerHTML = `<h2>${w.label}: ${w.title}</h2>`;
+  const objBtn = document.createElement("button");
+  objBtn.className = "obj-toggle";
+  objBtn.textContent = "Learning objectives";
+  titleRow.appendChild(objBtn);
+  stageEl.appendChild(titleRow);
+
+  const objDiv = document.createElement("div");
+  objDiv.className = "objectives";
+  objDiv.innerHTML = `<div class="ol-label">This section covers</div>
+    <ul>${w.objectives.map(o=>`<li>${o}</li>`).join("")}</ul>`;
+  stageEl.appendChild(objDiv);
+  objBtn.addEventListener("click", ()=>{
+    objDiv.classList.toggle("show");
+    objBtn.textContent = objDiv.classList.contains("show") ? "Hide objectives" : "Learning objectives";
+  });
+
+  const modeDiv = document.createElement("div");
+  modeDiv.className = "mode-toggle";
+  const flashBtn = document.createElement("button");
+  flashBtn.textContent = "Flashcards";
+  const quizBtn = document.createElement("button");
+  quizBtn.textContent = "Practice Quiz";
+  flashBtn.className = activeMode==="flash" ? "active":"";
+  quizBtn.className = activeMode==="quiz" ? "active":"";
+  flashBtn.addEventListener("click", ()=>{ activeMode="flash"; renderAll(); });
+  quizBtn.addEventListener("click", ()=>{ activeMode="quiz"; renderAll(); });
+  modeDiv.appendChild(flashBtn); modeDiv.appendChild(quizBtn);
+  stageEl.appendChild(modeDiv);
+
+  const body = document.createElement("div");
+  stageEl.appendChild(body);
+
+  if(activeMode==="flash"){
+    renderFlashcards(body, w, ws);
+  } else {
+    renderQuiz(body, w, ws);
+  }
+}
+
+/* =========================================================
+   FLASHCARDS
+   ========================================================= */
+
+function renderFlashcards(container, w, ws){
+  const fc = ws.flash;
+  const total = w.flashcards.length;
+  const cardData = w.flashcards[fc.order[fc.idx]];
+
+  container.innerHTML = "";
+  const area = document.createElement("div");
+  area.className = "fc-area";
+
+  const count = document.createElement("div");
+  count.className = "fc-count";
+  count.textContent = `Card ${fc.idx+1} of ${total}`;
+  area.appendChild(count);
+
+  const card = document.createElement("div");
+  card.className = "flashcard" + (fc.flipped ? " flipped":"");
+  card.setAttribute("role","button");
+  card.setAttribute("tabindex","0");
+  card.setAttribute("aria-label","Flashcard, click to flip");
+  card.innerHTML = `
+    <div class="flashcard-inner">
+      <div class="fc-face fc-front">
+        <div class="fc-tag">Term</div>
+        <div class="term">${cardData.term}</div>
+        <div class="fc-hint">Click to reveal definition</div>
+      </div>
+      <div class="fc-face fc-back">
+        <div class="fc-tag">Definition</div>
+        <div class="def">${cardData.def}</div>
+      </div>
+    </div>`;
+  function flip(){ fc.flipped = !fc.flipped; card.className = "flashcard"+(fc.flipped?" flipped":""); }
+  card.addEventListener("click", flip);
+  card.addEventListener("keydown", (e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); flip(); }});
+  area.appendChild(card);
+
+  const nav = document.createElement("div");
+  nav.className = "fc-nav";
+  const prevBtn = document.createElement("button");
+  prevBtn.className = "btn"; prevBtn.textContent = "\u2190 Previous";
+  prevBtn.disabled = fc.idx===0;
+  prevBtn.addEventListener("click", ()=>{ fc.idx=Math.max(0,fc.idx-1); fc.flipped=false; renderFlashcards(container,w,ws); });
+
+  const shuffleBtn = document.createElement("button");
+  shuffleBtn.className = "btn"; shuffleBtn.textContent = "Shuffle";
+  shuffleBtn.addEventListener("click", ()=>{ fc.order = shuffled(total); fc.idx=0; fc.flipped=false; renderFlashcards(container,w,ws); });
+
+  const nextBtn = document.createElement("button");
+  nextBtn.className = "btn primary"; nextBtn.textContent = "Next \u2192";
+  nextBtn.disabled = fc.idx===total-1;
+  nextBtn.addEventListener("click", ()=>{ fc.idx=Math.min(total-1,fc.idx+1); fc.flipped=false; renderFlashcards(container,w,ws); });
+
+  nav.appendChild(prevBtn); nav.appendChild(shuffleBtn); nav.appendChild(nextBtn);
+  area.appendChild(nav);
+
+  container.appendChild(area);
+}
+
+/* =========================================================
+   QUIZ (per-week)
+   ========================================================= */
+
+function renderQuiz(container, w, ws){
+  const qz = ws.quiz;
+  container.innerHTML = "";
+
+  if(qz.done){
+    renderWeekReport(container, w, ws);
+    return;
+  }
+
+  const total = w.quiz.length;
+  const item = w.quiz[qz.order[qz.idx]];
+
+  const progWrap = document.createElement("div");
+  progWrap.innerHTML = `<div class="quiz-progress"><span>Question ${qz.idx+1} of ${total}</span><span>Score: ${qz.score}/${qz.answered}</span></div>
+    <div class="progress-bar"><div style="width:${(qz.idx/total)*100}%"></div></div>`;
+  container.appendChild(progWrap);
+
+  const card = document.createElement("div");
+  card.className = "q-card";
+  const isCase = item.q.startsWith("CASE:");
+  card.innerHTML = (isCase ? `<div class="case-flag">Case scenario</div>`:"") +
+    `<p class="q-text">${item.q.replace(/^CASE:\s*/,"")}</p>`;
+
+  const optsDiv = document.createElement("div");
+  optsDiv.className = "options";
+  const letters = ["A","B","C","D"];
+  item.options.forEach((opt, idx)=>{
+    const b = document.createElement("button");
+    b.className = "opt";
+    b.innerHTML = `<span class="letter">${letters[idx]}</span><span>${opt}</span>`;
+    b.addEventListener("click", ()=>{
+      if(qz.checked) return;
+      qz.selected = idx;
+      Array.from(optsDiv.children).forEach(c=>c.classList.remove("selected"));
+      b.classList.add("selected");
+    });
+    optsDiv.appendChild(b);
+  });
+  card.appendChild(optsDiv);
+
+  const feedback = document.createElement("div");
+  feedback.className = "feedback";
+  card.appendChild(feedback);
+
+  const actions = document.createElement("div");
+  actions.className = "quiz-actions";
+  const checkBtn = document.createElement("button");
+  checkBtn.className = "btn primary";
+  checkBtn.textContent = "Check Answer";
+  const nextBtn = document.createElement("button");
+  nextBtn.className = "btn primary";
+  nextBtn.textContent = qz.idx===total-1 ? "See Results" : "Next Question \u2192";
+  nextBtn.style.display = "none";
+
+  checkBtn.addEventListener("click", ()=>{
+    if(qz.selected===null){ return; }
+    qz.checked = true;
+    qz.answered++;
+    const correctIdx = item.answer;
+    Array.from(optsDiv.children).forEach((c, idx)=>{
+      c.classList.add("locked");
+      if(idx===correctIdx) c.classList.add("correct");
+      else if(idx===qz.selected) c.classList.add("incorrect");
+    });
+    const isRight = qz.selected===correctIdx;
+    if(isRight) qz.score++;
+    else qz.missed.push({q:item.q, correct:item.options[correctIdx], explain:item.explain});
+    feedback.className = "feedback show " + (isRight ? "normal":"abnormal");
+    feedback.innerHTML = `<span class="flag-word">${isRight? "Normal \u2014 Correct":"Flagged \u2014 Incorrect"}</span>${item.explain}`;
+    checkBtn.style.display = "none";
+    nextBtn.style.display = "inline-block";
+    updateSessionScore();
+    progWrap.querySelector(".quiz-progress span:last-child").textContent = `Score: ${qz.score}/${qz.answered}`;
+  });
+
+  nextBtn.addEventListener("click", ()=>{
+    if(qz.idx < total-1){
+      qz.idx++; qz.selected=null; qz.checked=false;
+      renderQuiz(container, w, ws);
+    } else {
+      qz.done = true;
+      renderQuiz(container, w, ws);
+    }
+  });
+
+  actions.appendChild(checkBtn);
+  actions.appendChild(nextBtn);
+  card.appendChild(actions);
+  container.appendChild(card);
+}
+
+function renderWeekReport(container, w, ws){
+  const qz = ws.quiz;
+  container.innerHTML = "";
+  const pct = qz.answered? qz.score/qz.answered : 0;
+  const rep = document.createElement("div");
+  rep.className = "report";
+  rep.innerHTML = `
+    <div class="score-label">Results \u2014 ${w.label}</div>
+    <div class="score-big ${pct>=0.7?'flag-normal':'flag-abn'}">${qz.score} / ${qz.answered}</div>
+    <div class="score-label">${Math.round(pct*100)}% correct</div>`;
+
+  if(qz.missed.length){
+    const list = document.createElement("div");
+    list.className = "missed-list";
+    list.innerHTML = `<h4>Review these before the exam</h4><ul>${
+      qz.missed.map(m=>`<li><strong>${m.correct}</strong> \u2014 ${m.explain}</li>`).join("")
+    }</ul>`;
+    rep.appendChild(list);
+  } else {
+    const perfect = document.createElement("p");
+    perfect.style.color = "var(--flag-normal)";
+    perfect.style.fontWeight = "600";
+    perfect.textContent = "Clean panel \u2014 no missed items this round.";
+    rep.appendChild(perfect);
+  }
+
+  const actions = document.createElement("div");
+  actions.className = "report-actions";
+  const retryBtn = document.createElement("button");
+  retryBtn.className = "btn primary";
+  retryBtn.textContent = "Retry This Week";
+  retryBtn.addEventListener("click", ()=>{
+    weekState[activeWeekIdx].quiz = { idx:0, order: shuffled(w.quiz.length), selected:null, checked:false,
+      score:0, answered:0, missed:[], done:false };
+    renderAll();
+  });
+  const flashBtn = document.createElement("button");
+  flashBtn.className = "btn";
+  flashBtn.textContent = "Review Flashcards";
+  flashBtn.addEventListener("click", ()=>{ activeMode="flash"; renderAll(); });
+  actions.appendChild(retryBtn);
+  actions.appendChild(flashBtn);
+  rep.appendChild(actions);
+
+  container.appendChild(rep);
+}
+
+/* =========================================================
+   CUMULATIVE REVIEW STAGE
+   ========================================================= */
+
+function renderCumulativeStage(){
+  stageEl.innerHTML = "";
+  const titleRow = document.createElement("div");
+  titleRow.className = "week-title";
+  titleRow.innerHTML = `<h2>Cumulative Review \u2014 Weeks 1\u20135</h2>`;
+  const restartBtn = document.createElement("button");
+  restartBtn.className = "obj-toggle";
+  restartBtn.textContent = "New random set";
+  restartBtn.addEventListener("click", ()=>{ cumState = buildCumulative(25); renderAll(); });
+  titleRow.appendChild(restartBtn);
+  stageEl.appendChild(titleRow);
+
+  const intro = document.createElement("p");
+  intro.style.color = "var(--ink-soft)";
+  intro.style.fontSize = "14px";
+  intro.style.margin = "4px 0 20px";
+  intro.textContent = "A shuffled, mixed set of practice questions pulled from all five weeks \u2014 use this to simulate exam conditions and see which week needs more review.";
+  stageEl.appendChild(intro);
+
+  const body = document.createElement("div");
+  stageEl.appendChild(body);
+
+  if(cumState.done){
+    renderCumReport(body);
+  } else {
+    renderCumQuestion(body);
+  }
+}
+
+function renderCumQuestion(container){
+  const cs = cumState;
+  const total = cs.items.length;
+  const ref = cs.items[cs.idx];
+  const w = WEEKS[ref.wi];
+  const item = w.quiz[ref.qi];
+
+  container.innerHTML = "";
+  const progWrap = document.createElement("div");
+  progWrap.innerHTML = `<div class="quiz-progress"><span>Question ${cs.idx+1} of ${total} \u00b7 ${ref.weekLabel}</span><span>Score: ${cs.score}/${cs.answered}</span></div>
+    <div class="progress-bar"><div style="width:${(cs.idx/total)*100}%"></div></div>`;
+  container.appendChild(progWrap);
+
+  const card = document.createElement("div");
+  card.className = "q-card";
+  const isCase = item.q.startsWith("CASE:");
+  card.innerHTML = (isCase ? `<div class="case-flag">Case scenario</div>`:"") +
+    `<p class="q-text">${item.q.replace(/^CASE:\s*/,"")}</p>`;
+
+  const optsDiv = document.createElement("div");
+  optsDiv.className = "options";
+  const letters = ["A","B","C","D"];
+  item.options.forEach((opt, idx)=>{
+    const b = document.createElement("button");
+    b.className = "opt";
+    b.innerHTML = `<span class="letter">${letters[idx]}</span><span>${opt}</span>`;
+    b.addEventListener("click", ()=>{
+      if(cs.checked) return;
+      cs.selected = idx;
+      Array.from(optsDiv.children).forEach(c=>c.classList.remove("selected"));
+      b.classList.add("selected");
+    });
+    optsDiv.appendChild(b);
+  });
+  card.appendChild(optsDiv);
+
+  const feedback = document.createElement("div");
+  feedback.className = "feedback";
+  card.appendChild(feedback);
+
+  const actions = document.createElement("div");
+  actions.className = "quiz-actions";
+  const checkBtn = document.createElement("button");
+  checkBtn.className = "btn primary"; checkBtn.textContent = "Check Answer";
+  const nextBtn = document.createElement("button");
+  nextBtn.className = "btn primary";
+  nextBtn.textContent = cs.idx===total-1 ? "See Results" : "Next Question \u2192";
+  nextBtn.style.display = "none";
+
+  checkBtn.addEventListener("click", ()=>{
+    if(cs.selected===null) return;
+    cs.checked = true;
+    cs.answered++;
+    cs.perWeek[ref.weekLabel] = cs.perWeek[ref.weekLabel] || {score:0,total:0};
+    cs.perWeek[ref.weekLabel].total++;
+    const correctIdx = item.answer;
+    Array.from(optsDiv.children).forEach((c, idx)=>{
+      c.classList.add("locked");
+      if(idx===correctIdx) c.classList.add("correct");
+      else if(idx===cs.selected) c.classList.add("incorrect");
+    });
+    const isRight = cs.selected===correctIdx;
+    if(isRight){ cs.score++; cs.perWeek[ref.weekLabel].score++; }
+    else cs.missed.push({q:item.q, correct:item.options[correctIdx], explain:item.explain, week:ref.weekLabel});
+    feedback.className = "feedback show " + (isRight?"normal":"abnormal");
+    feedback.innerHTML = `<span class="flag-word">${isRight?"Normal \u2014 Correct":"Flagged \u2014 Incorrect"}</span>${item.explain}`;
+    checkBtn.style.display = "none";
+    nextBtn.style.display = "inline-block";
+    updateSessionScore();
+    progWrap.querySelector(".quiz-progress span:last-child").textContent = `Score: ${cs.score}/${cs.answered}`;
+  });
+
+  nextBtn.addEventListener("click", ()=>{
+    if(cs.idx < total-1){
+      cs.idx++; cs.selected=null; cs.checked=false;
+      renderCumQuestion(container);
+    } else {
+      cs.done = true;
+      renderCumReport(container);
+    }
+  });
+
+  actions.appendChild(checkBtn); actions.appendChild(nextBtn);
+  card.appendChild(actions);
+  container.appendChild(card);
+}
+
+function renderCumReport(container){
+  const cs = cumState;
+  container.innerHTML = "";
+  const pct = cs.answered ? cs.score/cs.answered : 0;
+  const rep = document.createElement("div");
+  rep.className = "report";
+  rep.innerHTML = `
+    <div class="score-label">Cumulative Results</div>
+    <div class="score-big ${pct>=0.7?'flag-normal':'flag-abn'}">${cs.score} / ${cs.answered}</div>
+    <div class="score-label">${Math.round(pct*100)}% correct</div>`;
+
+  const breakdown = document.createElement("div");
+  breakdown.className = "breakdown";
+  WEEKS.forEach(w=>{
+    const rec = cs.perWeek[w.label];
+    const cell = document.createElement("div");
+    cell.className = "cell";
+    if(rec){
+      const wp = rec.score/rec.total;
+      cell.innerHTML = `<div class="w">${w.label}</div><div class="s" style="color:${wp>=0.7?'var(--flag-normal)':'var(--flag-abn)'}">${rec.score}/${rec.total}</div>`;
+    } else {
+      cell.innerHTML = `<div class="w">${w.label}</div><div class="s" style="color:var(--ink-soft)">\u2014</div>`;
+    }
+    breakdown.appendChild(cell);
+  });
+  rep.appendChild(breakdown);
+
+  if(cs.missed.length){
+    const list = document.createElement("div");
+    list.className = "missed-list";
+    list.innerHTML = `<h4>Review these before the exam</h4><ul>${
+      cs.missed.map(m=>`<li><strong>[${m.week}]</strong> <strong>${m.correct}</strong> \u2014 ${m.explain}</li>`).join("")
+    }</ul>`;
+    rep.appendChild(list);
+  }
+
+  const actions = document.createElement("div");
+  actions.className = "report-actions";
+  const retryBtn = document.createElement("button");
+  retryBtn.className = "btn primary";
+  retryBtn.textContent = "New Random Set";
+  retryBtn.addEventListener("click", ()=>{ cumState = buildCumulative(25); renderAll(); });
+  actions.appendChild(retryBtn);
+  rep.appendChild(actions);
+
+  container.appendChild(rep);
+}
+
+/* =========================================================
+   INIT
+   ========================================================= */
+
+renderAll();
+
+})();
+</script>
+</body>
+</html>
